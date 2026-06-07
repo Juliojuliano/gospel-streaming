@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/gospel-streaming/static/css/main.10578fc5.css",
+    "main.js": "/gospel-streaming/static/js/main.90bed3ca.js",
+    "static/js/453.2cfcec42.chunk.js": "/gospel-streaming/static/js/453.2cfcec42.chunk.js",
+    "index.html": "/gospel-streaming/index.html",
+    "main.10578fc5.css.map": "/gospel-streaming/static/css/main.10578fc5.css.map",
+    "main.90bed3ca.js.map": "/gospel-streaming/static/js/main.90bed3ca.js.map",
+    "453.2cfcec42.chunk.js.map": "/gospel-streaming/static/js/453.2cfcec42.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.10578fc5.css",
+    "static/js/main.90bed3ca.js"
+  ]
+}
