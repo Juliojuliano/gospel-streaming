@@ -10,29 +10,36 @@ function Player({ musica, favoritos, alternarFavorito, nextTrack, prevTrack }) {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.src = musica.audio || '';
+
+    audio.src = musica?.audio || '';
     audio.load();
+
+    const onEnded = () => {
+      if (nextTrack) {
+        nextTrack();
+      } else {
+        setPlaying(false);
+      }
+    };
+    const onTimeUpdate = () => setCurrentTime(audio.currentTime);
+    const onLoadedMeta = () => setDuration(audio.duration || 0);
+
+    audio.addEventListener('ended', onEnded);
+    audio.addEventListener('timeupdate', onTimeUpdate);
+    audio.addEventListener('loadedmetadata', onLoadedMeta);
+
     const playPromise = audio.play();
     if (playPromise !== undefined) {
       playPromise.then(() => setPlaying(true)).catch(() => setPlaying(false));
     }
 
-    const onEnded = () => setPlaying(false);
-    const onTimeUpdate = () => setCurrentTime(audio.currentTime);
-    const onLoadedMeta = () => setDuration(audio.duration || 0);
-    audio.addEventListener('ended', onEnded);
-    audio.addEventListener('timeupdate', onTimeUpdate);
-    audio.addEventListener('loadedmetadata', onLoadedMeta);
-
     return () => {
-      if (audio) {
-        audio.pause();
-        audio.removeEventListener('ended', onEnded);
-        audio.removeEventListener('timeupdate', onTimeUpdate);
-        audio.removeEventListener('loadedmetadata', onLoadedMeta);
-      }
+      audio.pause();
+      audio.removeEventListener('ended', onEnded);
+      audio.removeEventListener('timeupdate', onTimeUpdate);
+      audio.removeEventListener('loadedmetadata', onLoadedMeta);
     };
-  }, [musica]);
+  }, [musica, nextTrack]);
 
   const togglePlay = (e) => {
     if (e) e.stopPropagation();

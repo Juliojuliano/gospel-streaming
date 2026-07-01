@@ -19,36 +19,40 @@ function App() {
   const [favoritos, setFavoritos] = useState([]);
   const [playlistsUsuario] = useState(playlists);
   const [playlistAtual, setPlaylistAtual] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const buildTrack = (track, artist) => ({
+    ...track,
+    artista: track.artista || artist?.nome || '',
+    artistaImagem: track.artistaImagem || artist?.imagem || ''
+  });
 
   const tocarMusica = (musica, artista, incomingQueue = null, playlistId = null) => {
     let builtQueue = [];
-    if (incomingQueue && incomingQueue.length > 0) {
-      // incomingQueue may be array of track objects or array of ids
-      if (typeof incomingQueue[0] === 'object' && incomingQueue[0].titulo) {
-        builtQueue = incomingQueue.map(m => ({
-          ...m,
-          // ensure artista fields exist when provided by caller
-          artista: m.artista || m.artista || (artista ? artista.nome : ''),
-          artistaImagem: m.artistaImagem || (artista ? artista.imagem : m.artistaImagem)
-        }));
+
+    if (incomingQueue?.length > 0) {
+      if (typeof incomingQueue[0] === 'object') {
+        builtQueue = incomingQueue.map(track => buildTrack(track, artista));
       } else {
-        // assume array of ids — resolve using artistas data
         builtQueue = artistas.flatMap(a =>
           a.musicas
             .filter(m => incomingQueue.includes(m.id))
-            .map(m => ({ ...m, artista: a.nome, artistaImagem: a.imagem }))
+            .map(m => buildTrack(m, a))
         );
       }
     } else if (artista) {
-      builtQueue = artista.musicas.map(m => ({ ...m, artista: artista.nome, artistaImagem: artista.imagem }));
+      builtQueue = artista.musicas.map(m => buildTrack(m, artista));
+    }
+
+    if (builtQueue.length === 0 && musica) {
+      builtQueue = [buildTrack(musica, artista)];
     }
 
     setQueue(builtQueue);
-    const idx = builtQueue.findIndex(m => m.id === musica.id);
+    const idx = musica ? builtQueue.findIndex(m => m.id === musica.id) : -1;
     const newIndex = idx >= 0 ? idx : 0;
     setCurrentIndex(newIndex);
-    setMusicaAtual({ ...builtQueue[newIndex] });
-    // mark playing playlist if provided
+    setMusicaAtual(builtQueue[newIndex] || null);
     setPlayingPlaylistId(playlistId || null);
   };
 
@@ -77,6 +81,11 @@ function App() {
   const navegarParaArtista = (artista) => {
     setArtistaSelecionado(artista);
     setPagina('artista');
+  };
+
+  const handleSearch = (searchTerm) => {
+    setSearchQuery(searchTerm);
+    setPagina('busca');
   };
 
   const renderizarPagina = () => {
@@ -121,6 +130,8 @@ function App() {
             artistas={artistas}
             navegarParaArtista={navegarParaArtista}
             tocarMusica={tocarMusica}
+            searchTerm={searchQuery}
+            setSearchTerm={setSearchQuery}
           />
         );
       default:
@@ -149,6 +160,7 @@ function App() {
         <Header 
           pagina={pagina}
           setPagina={setPagina}
+          onSearch={handleSearch}
         />
         <div className="content">
           {renderizarPagina()}

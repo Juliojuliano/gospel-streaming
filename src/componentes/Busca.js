@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-function Busca({ artistas, navegarParaArtista, tocarMusica }) {
-  const [searchTerm, setSearchTerm] = useState('');
+function Busca({ artistas, navegarParaArtista, tocarMusica, searchTerm: propSearchTerm, setSearchTerm }) {
+  const [searchTerm, setLocalSearchTerm] = useState(propSearchTerm || '');
+
+  useEffect(() => {
+    setLocalSearchTerm(propSearchTerm || '');
+  }, [propSearchTerm]);
   const [genreFilter, setGenreFilter] = useState('Todos');
 
   const generos = ['Todos', 'Adoração', 'Louvor', 'Gospel Contemporâneo', 'Gospel Clássico'];
@@ -24,7 +28,10 @@ function Busca({ artistas, navegarParaArtista, tocarMusica }) {
           className="busca-input-large"
           placeholder="Artista, música ou playlist..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setLocalSearchTerm(e.target.value);
+            setSearchTerm(e.target.value);
+          }}
         />
       </div>
 
@@ -59,13 +66,14 @@ function Busca({ artistas, navegarParaArtista, tocarMusica }) {
                 <div className="card-subtitle">{artista.genero}</div>
                 <div className="card-songs">
                   {artista.musicas.slice(0,2).map(m => (
-                    <div
+                    <button
                       key={m.id}
+                      type="button"
                       className="card-song"
                       onClick={(e) => { e.stopPropagation(); tocarMusica(m, artista); }}
                     >
                       {m.titulo}
-                    </div>
+                    </button>
                   ))}
                 </div>
               </div>

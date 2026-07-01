@@ -43,6 +43,25 @@
   box-sizing: border-box;
 }
 
+button {
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:focus-visible,
+.menu-item:focus-visible,
+.genre-tag:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 :root {
   --bg-primary: #121212;
   --bg-secondary: #1a1a2e;
@@ -412,6 +431,35 @@ body {
   text-overflow: ellipsis;
 }
 
+.card-songs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.card-song {
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  font-size: 13px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  width: 100%;
+}
+
+.card-song:hover,
+.card-song:focus-visible {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--text-primary);
+  transform: translateX(2px);
+}
+
 .play-button {
   position: absolute;
   right: 20px;
@@ -507,19 +555,15 @@ body {
   gap: 8px;
   flex: 2;
   max-width: 600px;
+  min-width: 0;
 }
 
 .player-buttons {
   display: flex;
   align-items: center;
   gap: 20px;
-}
-
-.player-btn {
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
+  flex-wrap: wrap;
+  justify-content: center;
   font-size: 18px;
   transition: all 0.2s;
   padding: 4px;
