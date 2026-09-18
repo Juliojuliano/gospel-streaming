@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-function Busca({ artistas, navegarParaArtista, tocarMusica }) {
-  const [searchTerm, setSearchTerm] = useState('');
+function Busca({ artistas, navegarParaArtista, tocarMusica, termoBusca, setTermoBusca }) {
+  const searchTerm = termoBusca;
+  const setSearchTerm = setTermoBusca;
   const [genreFilter, setGenreFilter] = useState('Todos');
 
   const generos = ['Todos', 'Adoração', 'Louvor', 'Gospel Contemporâneo', 'Gospel Clássico'];

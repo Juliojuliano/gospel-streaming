@@ -6,6 +6,11 @@ function Player({ musica, favoritos, alternarFavorito, nextTrack, prevTrack }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const isFavorite = favoritos.includes(musica.id);
+  const nextTrackRef = useRef(nextTrack);
+
+  useEffect(() => {
+    nextTrackRef.current = nextTrack;
+  }, [nextTrack]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -17,7 +22,10 @@ function Player({ musica, favoritos, alternarFavorito, nextTrack, prevTrack }) {
       playPromise.then(() => setPlaying(true)).catch(() => setPlaying(false));
     }
 
-    const onEnded = () => setPlaying(false);
+    const onEnded = () => {
+      setPlaying(false);
+      if (nextTrackRef.current) nextTrackRef.current();
+    };
     const onTimeUpdate = () => setCurrentTime(audio.currentTime);
     const onLoadedMeta = () => setDuration(audio.duration || 0);
     audio.addEventListener('ended', onEnded);

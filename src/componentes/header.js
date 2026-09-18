@@ -6,8 +6,8 @@ function Header({ pagina, setPagina, onSearch }) {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      setPagina('busca');
       if (onSearch) onSearch(searchTerm);
+      setPagina('busca');
     }
   };
 

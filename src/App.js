@@ -19,6 +19,7 @@ function App() {
   const [favoritos, setFavoritos] = useState([]);
   const [playlistsUsuario] = useState(playlists);
   const [playlistAtual, setPlaylistAtual] = useState(null);
+  const [termoBusca, setTermoBusca] = useState('');
 
   const tocarMusica = (musica, artista, incomingQueue = null, playlistId = null) => {
     let builtQueue = [];
@@ -28,7 +29,7 @@ function App() {
         builtQueue = incomingQueue.map(m => ({
           ...m,
           // ensure artista fields exist when provided by caller
-          artista: m.artista || m.artista || (artista ? artista.nome : ''),
+          artista: m.artista || (artista ? artista.nome : ''),
           artistaImagem: m.artistaImagem || (artista ? artista.imagem : m.artistaImagem)
         }));
       } else {
@@ -117,10 +118,12 @@ function App() {
         );
       case 'busca':
         return (
-          <Busca 
+          <Busca
             artistas={artistas}
             navegarParaArtista={navegarParaArtista}
             tocarMusica={tocarMusica}
+            termoBusca={termoBusca}
+            setTermoBusca={setTermoBusca}
           />
         );
       default:
@@ -146,9 +149,10 @@ function App() {
         setPlaylistAtual={setPlaylistAtual}
       />
       <div className="main-content">
-        <Header 
+        <Header
           pagina={pagina}
           setPagina={setPagina}
+          onSearch={setTermoBusca}
         />
         <div className="content">
           {renderizarPagina()}
