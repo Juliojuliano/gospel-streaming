@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-function Busca({ artistas, navegarParaArtista, tocarMusica, searchTerm: propSearchTerm, setSearchTerm }) {
-  const [searchTerm, setLocalSearchTerm] = useState(propSearchTerm || '');
-
-  useEffect(() => {
-    setLocalSearchTerm(propSearchTerm || '');
-  }, [propSearchTerm]);
+function Busca({ artistas, navegarParaArtista, tocarMusica, termoBusca, setTermoBusca }) {
+  const searchTerm = termoBusca;
+  const setSearchTerm = setTermoBusca;
   const [genreFilter, setGenreFilter] = useState('Todos');
 
   const generos = ['Todos', 'Adoração', 'Louvor', 'Gospel Contemporâneo', 'Gospel Clássico'];
@@ -28,10 +25,7 @@ function Busca({ artistas, navegarParaArtista, tocarMusica, searchTerm: propSear
           className="busca-input-large"
           placeholder="Artista, música ou playlist..."
           value={searchTerm}
-          onChange={(e) => {
-            setLocalSearchTerm(e.target.value);
-            setSearchTerm(e.target.value);
-          }}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
@@ -66,14 +60,13 @@ function Busca({ artistas, navegarParaArtista, tocarMusica, searchTerm: propSear
                 <div className="card-subtitle">{artista.genero}</div>
                 <div className="card-songs">
                   {artista.musicas.slice(0,2).map(m => (
-                    <button
+                    <div
                       key={m.id}
-                      type="button"
                       className="card-song"
                       onClick={(e) => { e.stopPropagation(); tocarMusica(m, artista); }}
                     >
                       {m.titulo}
-                    </button>
+                    </div>
                   ))}
                 </div>
               </div>
