@@ -5,6 +5,7 @@ export const artistas = [
     genero: "Adoração",
     seguidores: 1500000,
     imagem: "https://picsum.photos/seed/gabriela/200/200",
+    video: "https://youtu.be/Ns_YqW_KbTI?si=0lgbpHAzbDhBUVlt",
     musicas: [
       { id: 101, titulo: "Lugar Secreto", duracao: "5:30", plays: 8500000, audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" },
       { id: 102, titulo: "Creio que Tu És a Cura", duracao: "4:45", plays: 6200000, audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" },

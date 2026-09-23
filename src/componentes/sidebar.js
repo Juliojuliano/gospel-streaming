@@ -35,8 +35,9 @@ function Sidebar({ pagina, setPagina, playlists, setPlaylistAtual }) {
       <div className="sidebar-section-title">Playlists</div>
       <div className="sidebar-playlists">
         {playlists.map(playlist => (
-          <div 
+          <button 
             key={playlist.id} 
+            type="button"
             className="playlist-item"
             onClick={() => {
               setPlaylistAtual(playlist);
@@ -44,7 +45,7 @@ function Sidebar({ pagina, setPagina, playlists, setPlaylistAtual }) {
             }}
           >
             {playlist.nome}
-          </div>
+          </button>
         ))}
       </div>
     </div>

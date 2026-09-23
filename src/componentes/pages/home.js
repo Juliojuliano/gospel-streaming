@@ -29,13 +29,14 @@ function Home({ artistas, playlists, navegarParaArtista, tocarMusica, setPlaylis
             <div className="card-subtitle">{artista.genero} • {artista.seguidores.toLocaleString()} seguidores</div>
             <div className="card-songs">
               {artista.musicas.slice(0,2).map((m) => (
-                <div
+                <button
                   key={m.id}
+                  type="button"
                   className="card-song"
                   onClick={(e) => { e.stopPropagation(); tocarMusica(m, artista); }}
                 >
                   {m.titulo}
-                </div>
+                </button>
               ))}
             </div>
             <button 
