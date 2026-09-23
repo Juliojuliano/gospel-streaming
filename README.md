@@ -28,7 +28,7 @@ Aplicativo React de música gospel com playlists, artistas e player funcional.
 ## Instalação
 
 ```bash
-cd gospel-stream
+cd gospel-streaming
 npm install
 ```
 
